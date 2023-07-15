@@ -38,6 +38,7 @@
 <body{% block bodytag %} data-site-root="{{ h.url_for('home.index', locale='default', qualified=true) }}" data-locale-root="{{ h.url_for('home.index', qualified=true) }}" {% endblock %}>
   {% include "header.html" %}
   <div class="pt-28 bg-gray-100 min-h-screen">
+    {%- block page %}{% endblock -%}
   </div>
 </body>
 {%- block scripts %}
