@@ -1,0 +1,98 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _(dataset_type.title()) }}{% endblock %}
+
+{% block content %}
+<div class="px-20 py-10">
+    <div class="overflow-hidden bg-white w-full rounded-xl border shadow">
+        <div class="border-b text-2xl px-5 py-3">Datasets</div>
+        <div class="flex">
+            <div class="w-1/3 border-r">
+                {% for facet in facet_titles %}
+                {{ h.snippet('snippets/facet_list.html', title=facet_titles[facet], name=facet, search_facets=search_facets)
+                }}
+                {% endfor %}
+            </div>
+            <div class="w-full px-5 py-3">
+                <div>
+        {% block form %}
+        {% set facets = {
+          'fields': fields_grouped,
+          'search': search_facets,
+          'titles': facet_titles,
+          'translated_fields': translated_fields,
+          'remove_field': remove_field }
+        %}
+        {% set sorting = [
+          (_('Relevance'), 'score desc, metadata_modified desc'),
+          (_('Name Ascending'), 'title_string asc'),
+          (_('Name Descending'), 'title_string desc'),
+          (_('Last Modified'), 'metadata_modified desc'),
+          (_('Popular'), 'views_recent desc') if g.tracking_enabled else (false, false) ]
+        %}
+        {% snippet 'snippets/search_form.html', form_id='dataset-search-form', type=dataset_type, query=q, sorting=sorting, sorting_selected=sort_by_selected, count=page.item_count, placeholder=h.humanize_entity_type('package', dataset_type, 'search placeholder') or _('Search datasets...'), facets=facets, show_empty=request.args, error=query_error, fields=fields %}
+        {% endblock %}
+            </div>
+                {{ h.snippet('snippets/package_list.html', packages=page.items) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <section class="module">
+    <div class="module-content">
+        {% if h.check_access('package_create') %}
+        <div class="page_primary_action">
+            {{ h.snippet ('snippets/add_dataset.html', dataset_type=dataset_type) }}
+        </div>
+        {% endif %}
+        {% set facets = {
+        'fields': fields_grouped,
+        'search': search_facets,
+        'titles': facet_titles,
+        'translated_fields': translated_fields,
+        'remove_field': remove_field }
+        %}
+        {% set sorting = [
+        (_('Relevance'), 'score desc, metadata_modified desc'),
+        (_('Name Ascending'), 'title_string asc'),
+        (_('Name Descending'), 'title_string desc'),
+        (_('Last Modified'), 'metadata_modified desc'),
+        (_('Popular'), 'views_recent desc') if g.tracking_enabled else (false, false) ]
+        %}
+        {% snippet 'snippets/search_form.html', form_id='dataset-search-form', type=dataset_type, query=q,
+        sorting=sorting, sorting_selected=sort_by_selected, count=page.item_count,
+        placeholder=h.humanize_entity_type('package', dataset_type, 'search placeholder') or _('Search datasets...'),
+        facets=facets, show_empty=request.args, error=query_error, fields=fields %}
+
+        {{ h.snippet('snippets/package_list.html', packages=page.items) }}
+
+    </div>
+
+
+    {{ page.pager(q=q) }}
+
+</section>
+<section class="module">
+    <div class="module-content">
+        {% block package_search_results_api_inner %}
+        <small>
+            {% set api_link = h.link_to(_('API'), h.url_for('api.get_api', ver=3)) %}
+            {% set api_doc_link = h.link_to(_('API Docs'),
+            'http://docs.ckan.org/en/{0}/api/'.format(g.ckan_doc_version)) %}
+            {% trans %} You can also access this registry using the {{ api_link }} (see {{ api_doc_link}}). {% endtrans
+            %}
+        </small>
+        {% endblock %}
+    </div>
+</section>
+<div class="filters">
+    <div>
+        {% for facet in facet_titles %}
+        {{ h.snippet('snippets/facet_list.html', title=facet_titles[facet], name=facet, search_facets=search_facets) }}
+        {% endfor %}
+    </div>
+    <a class="close no-text hide-filters"><i class="fa fa-times-circle"></i><span class="text">close</span></a>
+</div> -->
+{% endblock %}

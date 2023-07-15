@@ -1,0 +1,24 @@
+{% set tags = h.get_facet_items_dict('tags', search_facets, limit=3) %}
+{% set placeholder = _('E.g. environment') %}
+{% set dataset_type = h.default_package_type() %}
+
+<form method="get" action="{% url_for dataset_type ~ '.search' %}">
+    <div class="bg-white rounded-xl flex p-1.5">
+        <input
+            aria-label="{% block header_site_search_label %}{{ h.humanize_entity_type('package', dataset_type, 'search placeholder') or _('Search datasets') }}{% endblock %}"
+            type="text" name="q" id="field-main-search" autocomplete="off"
+            class="block flex-1 border-0 py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+            placeholder="{% block search_placeholder %}{{ placeholder }}{% endblock %}" />
+        <button class="bg-green-500 text-white rounded-lg px-1 w-10" type="submit"><i
+                class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+</form>
+{#<div>
+    <h3>{{ _('Popular tags') }}</h3>
+    <div class="grid grid-cols-12 min-h-20">
+        {% for tag in tags %}
+        <a class="bg-indigo-500 px-2 py-1" href="{% url_for 'dataset.search', tags=tag.name %}">{{
+            tag.display_name|truncate(22) }}</a>
+        {% endfor %}
+    </div>
+</div>#}

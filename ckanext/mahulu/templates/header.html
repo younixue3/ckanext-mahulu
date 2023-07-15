@@ -1,0 +1,103 @@
+{% set dataset_type = h.default_package_type() %}
+<header class="bg-[#22184c] text-white fixed w-full z-50 top-0">
+  <nav class="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8" aria-label="Global">
+    <div class="flex lg:flex-1">
+      <a href="{{url_for('home.index')}}" class="-m-1.5 p-1.5">
+        <span class="sr-only">Your Company</span>
+        <img class="h-14 w-auto" src="/opendata_white.png" alt="">
+      </a>
+    </div>
+    <div class="flex lg:hidden">
+      <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+        <span class="sr-only">Open main menu</span>
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+      </button>
+    </div>
+    <div class="hidden lg:flex lg:gap-x-12">
+      <!-- {{ h.build_nav_main((dataset_type ~ '.search', h.humanize_entity_type('package', dataset_type, 'main nav') or
+      _('Datasets'), ["dataset", "resource"]),) }} -->
+      <a href="{{h.url_for('dataset.search')}}" class="text-sm font-semibold leading-6">Datasets</a>
+      <a href="{{h.url_for('organization.index')}}" class="text-sm font-semibold leading-6">Organization</a>
+      <a href="{{h.url_for('group.index')}}" class="text-sm font-semibold leading-6">Groups</a>
+      <!-- <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Statistik</a> -->
+      <a href="{{h.url_for('home.about')}}" class="text-sm font-semibold leading-6">About</a>
+    </div>
+    <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+      {% if c.userobj %}
+      <div class="account avatar authed" data-module="me" data-me="{{ c.userobj.id }}">
+        <ul class="list-unstyled">
+          {% block header_account_logged %}
+          <!-- {% if c.userobj.sysadmin %}
+          <li>
+            <a href="{{ h.url_for('admin.index') }}" title="{{ _('Sysadmin settings') }}">
+              <i class="fa fa-gavel" aria-hidden="true"></i>
+              <span class="text">{{ _('Admin') }}</span>
+            </a>
+          </li>
+          {% endif %} -->
+          {% block header_account_profile %}
+          <div class="group relative mr-5">
+            <a href="{{ h.url_for('user.read', id=c.userobj.name) }}" class="text-sm font-semibold leading-6 flex">
+              {{ h.user_image((c.user if c and c.user else ''), size=22) }}{{ c.userobj.display_name }}
+              <span aria-hidden="true">&rarr;</span></a>
+            <div class="absolute bg-white w-36 hidden group-hover:flex text-sm rounded-lg border shadow flex-col">
+              <a class="border-t p-2 px-3 w-full" href="{{ h.url_for('dashboard.datasets') }}">Dashboard</a>
+              <a class="border-t p-2 px-3 w-full" href="{{ h.url_for('user.edit', id=c.userobj.name) }}">Profile
+                Settings</a>
+              <a class="border-t p-2 px-3 w-full" href="{{ h.url_for('user.logout') }}">Logout</a>
+            </div>
+          </div>
+          <!-- <li>
+            <a href="{{ h.url_for('user.read', id=c.userobj.name) }}" class="image" title="{{ _('View profile') }}">
+              {{ h.user_image((c.user if c and c.user else ''), size=22) }}
+              <span class="username">{{ c.userobj.display_name }}</span>
+            </a>
+          </li> -->
+          {% endblock %}
+          <!-- {% block header_dashboard %}
+          <li>
+            <a href="{{ h.url_for('dashboard.datasets') }}" title="{{ _(" View dashboard") }}">
+              <i class="fa fa-tachometer" aria-hidden="true"></i>
+              <span class="text">{{ _('Dashboard') }}</span>
+            </a>
+          </li>
+          {% endblock %}
+          {% block header_account_settings_link %}
+          <li>
+            <a href="{{ h.url_for('user.edit', id=c.userobj.name) }}" title="{{ _('Profile settings') }}">
+              <i class="fa fa-cog" aria-hidden="true"></i>
+              <span class="text">{{ _('Profile settings') }}</span>
+            </a>
+          </li>
+          {% endblock %}
+          {% block header_account_log_out_link %}
+          <li>
+            <a href="{{ h.url_for('user.logout') }}" title="{{ _('Log out') }}">
+              <i class="fa fa-sign-out" aria-hidden="true"></i>
+              <span class="text">{{ _('Log out') }}</span>
+            </a>
+          </li>
+          {% endblock %} -->
+          {% endblock %}
+        </ul>
+      </div>
+      {% else %}
+      {% block header_account_notlogged %}
+      <div class="space-x-3">
+        <a href="{{h.url_for('user.login')}}" class="text-sm font-semibold leading-6">Log in</a>
+        {% if h.check_access('user_create') %}
+        <a href="{{h.url_for('user.register')}}"
+          class="text-sm border border-gray-500 p-1 rounded-md font-semibold leading-6">Register</a>
+      </div>
+      {% endif %}
+      {% endblock %}
+      {% endif %}
+      <!-- <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Log in <span
+          aria-hidden="true">&rarr;</span></a> -->
+    </div>
+  </nav>
+
+</header>
