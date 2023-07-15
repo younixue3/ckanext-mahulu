@@ -1,0 +1,14 @@
+# mahulu-js:
+#   filter: rjsmin
+#   output: ckanext-mahulu/%(version)s-mahulu.js
+#   contents:
+#     - js/mahulu.js
+#   extra:
+#     preload:
+#       - base/main
+
+# mahulu-css:
+#   filter: cssrewrite
+#   output: ckanext-mahulu/%(version)s-mahulu.css
+#   contents:
+#     - css/mahulu.css
