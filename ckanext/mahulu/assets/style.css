@@ -3,3 +3,6 @@ body {
   border-radius: 0;
 }
 */
+.collapse {
+    visibility: visible !important;
+}
