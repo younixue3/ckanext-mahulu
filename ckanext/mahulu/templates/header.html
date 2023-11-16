@@ -89,8 +89,6 @@
       <div class="space-x-3">
         <a href="{{h.url_for('user.login')}}" class="text-sm font-semibold leading-6">Log in</a>
         {% if h.check_access('user_create') %}
-        <a href="{{h.url_for('user.register')}}"
-          class="text-sm border border-gray-500 p-1 rounded-md font-semibold leading-6">Register</a>
       </div>
       {% endif %}
       {% endblock %}
