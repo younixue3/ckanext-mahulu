@@ -1,0 +1,37 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('Infographic Data') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{% link_for _('Infographic Data' ), named_route='infographic.infographic_data' %}</li>
+{% endblock %}
+
+{% block primary %}
+  <article class="module">
+    <div class="module-content">
+      <h1>{{ _('Infographic Data') }}</h1>
+      
+      {% if packages %}
+        <h2>{{ _('Available Infographic Datasets') }}</h2>
+        <ul class="dataset-list list-unstyled">
+          {% for package in packages %}
+            {% snippet 'snippets/package_item.html', package=package, truncate=120 %}
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="empty">{{ _('No infographic data available') }}</p>
+      {% endif %}
+    </div>
+  </article>
+{% endblock %}
+
+{% block secondary %}
+  <div class="filters">
+    <div>
+      <h2>{{ _('Filter Infographic Data') }}</h2>
+      {% for facet in facets %}
+        {% snippet 'snippets/facet_list.html', title=facet.title, name=facet.name %}
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

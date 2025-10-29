@@ -1,11 +1,23 @@
 # -*- coding: utf-8 -*-
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
-    # If you are changing from the default layout of your extension, you may
-    # have to change the message extractors, you can read more about babel
-    # message extraction at
-    # http://babel.pocoo.org/docs/messages/#extraction-method-mapping-and-configuration
+    name='ckanext-mahulu',
+    version='0.0.1',
+    description='Mahulu extension for CKAN',
+    author='Ricko Caesar Aprilla Tiaka',
+    author_email='you@example.com',
+    license='AGPL',
+    packages=find_packages(),
+    include_package_data=True,
+    zip_safe=False,
+    entry_points='''
+        [ckan.plugins]
+        mahulu=ckanext.mahulu.plugin:MahuluPlugin
+
+        [babel.extractors]
+        ckan = ckan.lib.extract:extract_ckan
+    ''',
     message_extractors={
         'ckanext': [
             ('**.py', 'python', None),

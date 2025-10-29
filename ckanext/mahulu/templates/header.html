@@ -1,101 +1,102 @@
 {% set dataset_type = h.default_package_type() %}
-<header class="bg-[#22184c] text-white fixed w-full z-50 top-0">
+<header class="bg-[#22184c] text-white fixed w-full z-50 top-0 shadow-lg">
   <nav class="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8" aria-label="Global">
+    <!-- Logo -->
     <div class="flex lg:flex-1">
-      <a href="{{url_for('home.index')}}" class="-m-1.5 p-1.5">
-        <span class="sr-only">Your Company</span>
-        <img class="h-14 w-auto" src="/opendata_white.png" alt="">
+      <a href="{{ url_for('home.index') }}" class="flex items-center space-x-2">
+        <span class="sr-only">Open Data Portal</span>
+        <img class="h-12 w-auto md:h-14" src="/opendata_white.png" alt="Open Data Portal">
       </a>
     </div>
+
+    <!-- Mobile menu button -->
     <div class="flex lg:hidden">
-      <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+      <button id="mobile-menu-toggle" type="button" class="inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
         <span class="sr-only">Open main menu</span>
-        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-          aria-hidden="true">
+        <svg id="mobile-menu-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
         </svg>
       </button>
     </div>
-    <div class="hidden lg:flex lg:gap-x-12">
-      <!-- {{ h.build_nav_main((dataset_type ~ '.search', h.humanize_entity_type('package', dataset_type, 'main nav') or
-      _('Datasets'), ["dataset", "resource"]),) }} -->
-      <a href="{{h.url_for('dataset.search')}}" class="text-sm font-semibold leading-6">Datasets</a>
-      <a href="{{h.url_for('organization.index')}}" class="text-sm font-semibold leading-6">Organization</a>
-      <a href="{{h.url_for('group.index')}}" class="text-sm font-semibold leading-6">Groups</a>
-      <!-- <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Statistik</a> -->
-      <a href="{{h.url_for('home.about')}}" class="text-sm font-semibold leading-6">About</a>
+
+    <!-- Desktop Navigation -->
+    <div class="hidden lg:flex lg:gap-x-8 xl:gap-x-12">
+      <a href="{{ h.url_for('dataset.search') }}" class="text-sm font-semibold leading-6 hover:text-gray-300 transition">Datasets</a>
+      <a href="{{ h.url_for('organization.index') }}" class="text-sm font-semibold leading-6 hover:text-gray-300 transition">Organizations</a>
+      <a href="{{ h.url_for('group.index') }}" class="text-sm font-semibold leading-6 hover:text-gray-300 transition">Groups</a>
+      <a href="{{ h.url_for('infographic.infographic_data') }}" class="text-sm font-semibold leading-6">Infographic Data</a>
+      <a href="{{ h.url_for('home.about') }}" class="text-sm font-semibold leading-6 hover:text-gray-300 transition">About</a>
     </div>
+
+    <!-- Desktop Account -->
     <div class="hidden lg:flex lg:flex-1 lg:justify-end">
       {% if c.userobj %}
-      <div class="account avatar authed" data-module="me" data-me="{{ c.userobj.id }}">
-        <ul class="list-unstyled">
-          {% block header_account_logged %}
-          <!-- {% if c.userobj.sysadmin %}
-          <li>
-            <a href="{{ h.url_for('admin.index') }}" title="{{ _('Sysadmin settings') }}">
-              <i class="fa fa-gavel" aria-hidden="true"></i>
-              <span class="text">{{ _('Admin') }}</span>
-            </a>
-          </li>
-          {% endif %} -->
-          {% block header_account_profile %}
-          <div class="group relative mr-5">
-            <a href="{{ h.url_for('user.read', id=c.userobj.name) }}" class="text-sm font-semibold leading-6 flex">
-              {{ h.user_image((c.user if c and c.user else ''), size=22) }}{{ c.userobj.display_name }}
-              <span aria-hidden="true">&rarr;</span></a>
-            <div class="absolute bg-white w-36 hidden group-hover:flex text-sm rounded-lg border shadow flex-col">
-              <a class="border-t p-2 px-3 w-full" href="{{ h.url_for('dashboard.datasets') }}">Dashboard</a>
-              <a class="border-t p-2 px-3 w-full" href="{{ h.url_for('user.edit', id=c.userobj.name) }}">Profile
-                Settings</a>
-              <a class="border-t p-2 px-3 w-full" href="{{ h.url_for('user.logout') }}">Logout</a>
-            </div>
-          </div>
-          <!-- <li>
-            <a href="{{ h.url_for('user.read', id=c.userobj.name) }}" class="image" title="{{ _('View profile') }}">
-              {{ h.user_image((c.user if c and c.user else ''), size=22) }}
-              <span class="username">{{ c.userobj.display_name }}</span>
-            </a>
-          </li> -->
-          {% endblock %}
-          <!-- {% block header_dashboard %}
-          <li>
-            <a href="{{ h.url_for('dashboard.datasets') }}" title="{{ _(" View dashboard") }}">
-              <i class="fa fa-tachometer" aria-hidden="true"></i>
-              <span class="text">{{ _('Dashboard') }}</span>
-            </a>
-          </li>
-          {% endblock %}
-          {% block header_account_settings_link %}
-          <li>
-            <a href="{{ h.url_for('user.edit', id=c.userobj.name) }}" title="{{ _('Profile settings') }}">
-              <i class="fa fa-cog" aria-hidden="true"></i>
-              <span class="text">{{ _('Profile settings') }}</span>
-            </a>
-          </li>
-          {% endblock %}
-          {% block header_account_log_out_link %}
-          <li>
-            <a href="{{ h.url_for('user.logout') }}" title="{{ _('Log out') }}">
-              <i class="fa fa-sign-out" aria-hidden="true"></i>
-              <span class="text">{{ _('Log out') }}</span>
-            </a>
-          </li>
-          {% endblock %} -->
-          {% endblock %}
-        </ul>
+      <div class="relative group">
+        <button class="flex items-center gap-2 text-sm font-semibold leading-6 hover:text-gray-300 focus:outline-none">
+          {{ h.user_image((c.user if c and c.user else ''), size=22) }}
+          <span>{{ c.userobj.display_name }}</span>
+          <svg class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+          </svg>
+        </button>
+        <div class="absolute right-0 mt-2 w-48 origin-top-right scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100 bg-white text-gray-900 text-sm rounded-lg border shadow-lg flex-col overflow-hidden transition">
+          <a class="block px-4 py-2 hover:bg-gray-100" href="{{ h.url_for('dashboard.datasets') }}">Dashboard</a>
+          <a class="block px-4 py-2 hover:bg-gray-100" href="{{ h.url_for('user.edit', id=c.userobj.name) }}">Profile Settings</a>
+          <a class="block px-4 py-2 hover:bg-gray-100" href="{{ h.url_for('user.logout') }}">Logout</a>
+        </div>
       </div>
       {% else %}
-      {% block header_account_notlogged %}
-      <div class="space-x-3">
-        <a href="{{h.url_for('user.login')}}" class="text-sm font-semibold leading-6">Log in</a>
+      <div class="flex items-center space-x-4">
+        <a href="{{ h.url_for('user.login') }}" class="text-sm font-semibold leading-6 hover:text-gray-300 transition">Log in</a>
         {% if h.check_access('user_create') %}
+        <a href="{{ h.url_for('user.register') }}" class="text-sm font-semibold leading-6 hover:text-gray-300 transition">Register</a>
+        {% endif %}
       </div>
       {% endif %}
-      {% endblock %}
-      {% endif %}
-      <!-- <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Log in <span
-          aria-hidden="true">&rarr;</span></a> -->
     </div>
   </nav>
 
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden lg:hidden bg-[#22184c] border-t border-white/10">
+    <div class="space-y-1 px-4 pb-4 pt-2">
+      <a href="{{ h.url_for('dataset.search') }}" class="block rounded-md px-3 py-2 text-base font-medium hover:bg-white/10">Datasets</a>
+      <a href="{{ h.url_for('organization.index') }}" class="block rounded-md px-3 py-2 text-base font-medium hover:bg-white/10">Organizations</a>
+      <a href="{{ h.url_for('group.index') }}" class="block rounded-md px-3 py-2 text-base font-medium hover:bg-white/10">Groups</a>
+      <a href="{{ h.url_for('infographic.infographic_data') }}" class="block rounded-md px-3 py-2 text-base font-medium hover:bg-white/10">Infographic Data</a>
+      <a href="{{ h.url_for('home.about') }}" class="block rounded-md px-3 py-2 text-base font-medium hover:bg-white/10">About</a>
+      {% if c.userobj %}
+      <div class="border-t border-white/10 mt-2 pt-2">
+        <a href="{{ h.url_for('user.read', id=c.userobj.name) }}" class="block rounded-md px-3 py-2 text-base font-medium hover:bg-white/10">Profile</a>
+        <a href="{{ h.url_for('dashboard.datasets') }}" class="block rounded-md px-3 py-2 text-base font-medium hover:bg-white/10">Dashboard</a>
+        <a href="{{ h.url_for('user.edit', id=c.userobj.name) }}" class="block rounded-md px-3 py-2 text-base font-medium hover:bg-white/10">Settings</a>
+        <a href="{{ h.url_for('user.logout') }}" class="block rounded-md px-3 py-2 text-base font-medium hover:bg-white/10">Logout</a>
+      </div>
+      {% else %}
+      <div class="border-t border-white/10 mt-2 pt-2 space-y-1">
+        <a href="{{ h.url_for('user.login') }}" class="block rounded-md px-3 py-2 text-base font-medium hover:bg-white/10">Log in</a>
+        {% if h.check_access('user_create') %}
+        <a href="{{ h.url_for('user.register') }}" class="block rounded-md px-3 py-2 text-base font-medium hover:bg-white/10">Register</a>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
 </header>
+
+<script>
+  (function(){
+    const btn = document.getElementById('mobile-menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    const icon = document.getElementById('mobile-menu-icon');
+    if(!btn || !menu || !icon) return;
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', !expanded);
+      menu.classList.toggle('hidden');
+      // Swap icon
+      icon.innerHTML = expanded
+        ? '<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />'
+        : '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />';
+    });
+  })();
+</script>

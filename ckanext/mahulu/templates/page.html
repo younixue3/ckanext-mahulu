@@ -3,23 +3,26 @@
 {%- block page -%}
 
   {% block skip %}
-    <div class="visually-hidden-focusable"><a href="#content">{{ _('Skip to main content') }}</a></div>
+    <div class="visually-hidden-focusable">
+      <a href="#content">{{ _('Skip to main content') }}</a>
+    </div>
   {% endblock %}
 
   {#
-  Override the header on a page by page basis by extending this block. If
-  making sitewide header changes it is preferable to override the header.html
-  file.
+  Override the header on a page-by-page basis by extending this block.
+  For sitewide header changes, override header.html instead.
   #}
   {%- block header %}
     {% include "header.html" %}
   {% endblock -%}
 
-  {# The content block allows you to replace the content of the page if needed #}
+  {# Main content wrapper #}
   {%- block content %}
     {% block maintag %}<div class="main">{% endblock %}
       <div id="content" class="container">
         {% block main_content %}
+
+          {# Flash messages #}
           {% block flash %}
             <div class="flash-messages">
               {% block flash_inner %}
@@ -32,6 +35,7 @@
             </div>
           {% endblock %}
 
+          {# Breadcrumb toolbar #}
           {% block toolbar %}
             <div class="toolbar" role="navigation" aria-label="{{ _('Breadcrumb') }}">
               {% block breadcrumb %}
@@ -45,45 +49,23 @@
             </div>
           {% endblock %}
 
-          <div class="row wrapper{% block wrapper_class %}{% endblock %}{% if self.secondary()|trim == '' or c.action=='resource_read' %} no-nav{% endif %}">
-            {#
-            The pre_primary block can be used to add content to before the
-            rendering of the main content columns of the page.
-            #}
-            {% block pre_primary %}
-            {% endblock %}
+          {# Main layout row #}
+          <div class="row wrapper
+                      {% block wrapper_class %}{% endblock %}
+                      {% if self.secondary() | trim == '' or c.action == 'resource_read' %} no-nav{% endif %}">
 
+            {% block pre_primary %}{% endblock %}
+
+            {# Sidebar #}
             {% block secondary %}
               <aside class="secondary col-md-3">
-                {#
-                The secondary_content block can be used to add content to the
-                sidebar of the page. This is the main block that is likely to be
-                used within a template.
-
-                Example:
-
-                  {% block secondary_content %}
-                    <h2>A sidebar item</h2>
-                    <p>Some content for the item</p>
-                  {% endblock %}
-                #}
                 {% block secondary_content %}{% endblock %}
               </aside>
             {% endblock %}
 
+            {# Main content column #}
             {% block primary %}
               <div class="primary col-md-9 col-xs-12" role="main">
-                {#
-                The primary_content block can be used to add content to the page.
-                This is the main block that is likely to be used within a template.
-
-                Example:
-
-                  {% block primary_content %}
-                    <h1>My page content</h1>
-                    <p>Some content for the page</p>
-                  {% endblock %}
-                #}
                 {% block primary_content %}
                   <article class="module">
                     {% block page_header %}
@@ -98,14 +80,14 @@
                         </ul>
                       </header>
                     {% endblock %}
+
                     <div class="module-content">
                       {% if self.page_primary_action() | trim %}
                         <div class="page_primary_action">
                           {% block page_primary_action %}{% endblock %}
                         </div>
                       {% endif %}
-                      {% block primary_content_inner %}
-                      {% endblock %}
+                      {% block primary_content_inner %}{% endblock %}
                     </div>
                   </article>
                 {% endblock %}
@@ -118,15 +100,16 @@
   {% endblock -%}
 
   {#
-  Override the footer on a page by page basis by extending this block. If
-  making sitewide header changes it is preferable to override the footer.html-u
-  file.
+  Override the footer on a page-by-page basis by extending this block.
+  For sitewide footer changes, override footer.html instead.
   #}
   {%- block footer %}
     {% include "footer.html" %}
   {% endblock -%}
+
 {%- endblock -%}
 
+{# JavaScript assets #}
 {%- block scripts %}
   {% asset 'base/main' %}
   {% asset 'base/ckan' %}

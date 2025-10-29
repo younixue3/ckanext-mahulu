@@ -1,0 +1,35 @@
+<footer class="bg-gray-900 text-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <h4 class="text-lg font-semibold mb-4">About Mahulu Data Portal</h4>
+        <p class="text-gray-300">Mahulu Data Portal is built on CKAN, the world’s leading open-source data portal platform.</p>
+      </div>
+
+      <div>
+        <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+        <ul class="space-y-2">
+          <li><a href="{{ h.url_for('home.index') }}" class="text-gray-300 hover:text-white transition">Home</a></li>
+          <li><a href="{{ h.url_for('dataset.search') }}" class="text-gray-300 hover:text-white transition">Datasets</a></li>
+          <li><a href="{{ h.url_for('organization.index') }}" class="text-gray-300 hover:text-white transition">Organizations</a></li>
+          <li><a href="{{ h.url_for('group.index') }}" class="text-gray-300 hover:text-white transition">Groups</a></li>
+          <li><a href="{{ h.url_for('home.about') }}" class="text-gray-300 hover:text-white transition">About</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-lg font-semibold mb-4">Connect</h4>
+        <ul class="space-y-2">
+          <li><a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition">Twitter</a></li>
+          <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition">GitHub</a></li>
+          <li><a href="mailto:info@mahulu.org" class="text-gray-300 hover:text-white transition">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
+      <p>&copy; 2025 Mahulu Data Portal. All rights reserved.</p>
+      <p class="mt-2">Powered by <a href="https://ckan.org" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition">CKAN</a></p>
+    </div>
+  </div>
+</footer>

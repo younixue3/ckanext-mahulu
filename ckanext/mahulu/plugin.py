@@ -1,6 +1,7 @@
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from ckan.common import config
+from ckanext.mahulu.infographic_blueprint import infographic_blueprint
 
 
 
@@ -65,7 +66,19 @@ class MahuluPlugin(plugins.SingletonPlugin):
     # IBlueprint
 
     def get_blueprint(self):
-        return views.get_blueprints(self)
+    # Mendapatkan blueprint yang sudah ada
+        existing_blueprints = views.get_blueprints(self)
+        
+        # Menambahkan blueprint infographic
+        from ckanext.mahulu.infographic_blueprint import infographic_blueprint
+        
+        # Jika existing_blueprints adalah list
+        if isinstance(existing_blueprints, list):
+            existing_blueprints.append(infographic_blueprint)
+            return existing_blueprints
+        # Jika existing_blueprints adalah single blueprint
+        else:
+            return [existing_blueprints, infographic_blueprint]
 
     # IClick
 
