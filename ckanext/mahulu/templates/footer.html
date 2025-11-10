@@ -1,35 +1,42 @@
-<footer class="bg-gray-900 text-white">
+<footer class="bg-[#22184c] text-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <!-- 1. Logo, email, phone -->
       <div>
-        <h4 class="text-lg font-semibold mb-4">About Mahulu Data Portal</h4>
-        <p class="text-gray-300">Mahulu Data Portal is built on CKAN, the world’s leading open-source data portal platform.</p>
-      </div>
-
-      <div>
-        <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
-        <ul class="space-y-2">
-          <li><a href="{{ h.url_for('home.index') }}" class="text-gray-300 hover:text-white transition">Home</a></li>
-          <li><a href="{{ h.url_for('dataset.search') }}" class="text-gray-300 hover:text-white transition">Datasets</a></li>
-          <li><a href="{{ h.url_for('organization.index') }}" class="text-gray-300 hover:text-white transition">Organizations</a></li>
-          <li><a href="{{ h.url_for('group.index') }}" class="text-gray-300 hover:text-white transition">Groups</a></li>
-          <li><a href="{{ h.url_for('home.about') }}" class="text-gray-300 hover:text-white transition">About</a></li>
+        <img src="/opendata_white.png" alt="Mahulu Logo" class="h-10 mb-4">
+        <ul class="space-y-2 text-gray-300">
+          <li><a href="mailto:info@mahulu.org" class="text-white transition">info@mahulu.org</a></li>
+          <li><a href="tel:+62123456789" class="text-white transition">+62&nbsp;123&nbsp;456&nbsp;789</a></li>
         </ul>
       </div>
 
+      <!-- 2. Open Data Kab. Mahulu -->
       <div>
-        <h4 class="text-lg font-semibold mb-4">Connect</h4>
+        <h4 class="text-lg font-semibold mb-4">Open Data Kab.&nbsp;Mahulu</h4>
         <ul class="space-y-2">
-          <li><a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition">Twitter</a></li>
-          <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition">GitHub</a></li>
-          <li><a href="mailto:info@mahulu.org" class="text-gray-300 hover:text-white transition">Contact Us</a></li>
+          <li><a href="{{ h.url_for('home.about') }}" class="text-gray-300 hover:text-white transition">Tentang</a></li>
+          <li><a href="/ketentuan-penggunaan" class="text-gray-300 hover:text-white transition">Ketentuan Penggunaan</a></li>
+          <li><a href="/kebijakan-privasi" class="text-gray-300 hover:text-white transition">Kebijakan Privasi</a></li>
         </ul>
+      </div>
+
+      <!-- 3. Ikuti Kami -->
+      <div>
+        <h4 class="text-lg font-semibold mb-4">Ikuti Kami</h4>
+        <ul class="space-y-2">
+          <li><a href="https://instagram.com/mahuludata" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition">Instagram</a></li>
+        </ul>
+      </div>
+
+      <!-- 4. Powered by CKAN (keeps original copyright) -->
+      <div>
+        <h4 class="text-lg font-semibold mb-4">Powered by</h4>
+        <a href="https://ckan.org" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition">CKAN</a>
       </div>
     </div>
 
     <div class="mt-12 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
-      <p>&copy; 2025 Mahulu Data Portal. All rights reserved.</p>
-      <p class="mt-2">Powered by <a href="https://ckan.org" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition">CKAN</a></p>
+      <p>&copy; 2025 Mahulu Data Portal. All&nbsp;rights&nbsp;reserved.</p>
     </div>
   </div>
 </footer>

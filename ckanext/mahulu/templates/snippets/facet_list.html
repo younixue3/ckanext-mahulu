@@ -1,60 +1,73 @@
 {% block facet_list %}
-{% set hide_empty = hide_empty or false %}
-{% with items = items or h.get_facet_items_dict(name, search_facets) %}
-{% if items or not hide_empty %}
-{% block facet_list_item %}
-<section class="module module-narrow module-shallow">
-    {% block facet_list_heading %}
-    <h2 class="module-heading">
-        <i class="fa fa-filter"></i>
-        {{ title }}
-    </h2>
-    {% endblock %}
-    {% block facet_list_items %}
-    {% with items = items or h.get_facet_items_dict(name, search_facets) %}
-    {% if items %}
-    <nav aria-label="{{ title }}">
-        <ul class="list-unstyled nav nav-simple nav-facet">
-            {% for item in items %}
-            {% set href = h.remove_url_param(name, item.name, extras=extras, alternative_url=alternative_url) if
-            item.active else h.add_url_param(new_params={name: item.name}, extras=extras,
-            alternative_url=alternative_url) %}
-            {% set label = label_function(item) if label_function else item.display_name %}
-            {% set label_truncated = label|truncate(22) if not label_function else label %}
-            {% set count = count_label(item['count']) if count_label else ('%d' % item['count']) %}
-            <li class="nav-item {% if item.active %} active{% endif %}">
-                <a href="{{ href }}" title="{{ label if label != label_truncated else '' }}">
-                    <span class="item-label">{{ label_truncated }}</span>
-                    <span class="hidden separator"> - </span>
-                    <span class="item-count badge">{{ count }}</span>
+  {% set hide_empty = hide_empty or false %}
+  {% set items = items or h.get_facet_items_dict(name, search_facets) %}
+  {% if items or not hide_empty %}
+    {% block facet_list_item %}
+      <section class="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+        {% block facet_list_heading %}
+          <h2 class="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
+            <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+            </svg>
+            {{ title }}
+          </h2>
+        {% endblock %}
 
-                    {% if item.active %}<span class="facet-close"> <i class="fa fa-solid fa-circle-xmark"></i></span>{%
-                    endif %}
+        {% block facet_list_items %}
+          {% if items %}
+            <nav aria-label="{{ title }}" class="space-y-1">
+              <ul class="space-y-1">
+                {% for item in items %}
+                  {% set href = h.remove_url_param(name, item.name, extras=extras, alternative_url=alternative_url) if item.active else h.add_url_param(new_params={name: item.name}, extras=extras, alternative_url=alternative_url) %}
+                  {% set label = label_function(item) if label_function else item.display_name %}
+                  {% set label_truncated = label|truncate(22) if not label_function else label %}
+                  {% set count = count_label(item['count']) if count_label else ('%d' % item['count']) %}
+                  <li>
+                    <a href="{{ href }}"
+                       title="{{ label if label != label_truncated else '' }}"
+                       class="flex items-center justify-between px-3 py-2 rounded-md transition-colors duration-150
+                              {% if item.active %}
+                                bg-blue-50 text-blue-700 font-medium
+                              {% else %}
+                                text-gray-700 hover:bg-gray-100
+                              {% endif %}">
+                      <span class="truncate">{{ label_truncated }}</span>
+                      <span class="flex items-center gap-2 ml-2">
+                        <span class="text-xs bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full">{{ count }}</span>
+                        {% if item.active %}
+                          <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                          </svg>
+                        {% endif %}
+                      </span>
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </nav>
+
+            <div class="mt-4 text-sm">
+              {% if h.get_param_int('_%s_limit' % name) %}
+                {% if h.has_more_facets(name, search_facets) %}
+                  <a href="{{ h.remove_url_param('_%s_limit' % name, replace=0, extras=extras, alternative_url=alternative_url) }}"
+                     class="text-blue-600 hover:text-blue-800 font-medium">
+                    {{ _('Show More {facet_type}').format(facet_type=title) }}
+                  </a>
+                {% endif %}
+              {% else %}
+                <a href="{{ h.remove_url_param('_%s_limit' % name, extras=extras, alternative_url=alternative_url) }}"
+                   class="text-blue-600 hover:text-blue-800 font-medium">
+                  {{ _('Show Only Popular {facet_type}').format(facet_type=title) }}
                 </a>
-            </li>
-            {% endfor %}
-        </ul>
-    </nav>
-
-    <p class="module-footer">
-        {% if h.get_param_int('_%s_limit' % name) %}
-        {% if h.has_more_facets(name, search_facets) %}
-        <a href="{{ h.remove_url_param('_%s_limit' % name, replace=0, extras=extras, alternative_url=alternative_url) }}"
-            class="read-more">{{ _('Show More {facet_type}').format(facet_type=title) }}</a>
-        {% endif %}
-        {% else %}
-        <a href="{{ h.remove_url_param('_%s_limit' % name, extras=extras, alternative_url=alternative_url) }}"
-            class="read-more">{{ _('Show Only Popular {facet_type}').format(facet_type=title) }}</a>
-        {% endif %}
-    </p>
-    {% else %}
-    <p class="module-content empty">{{ _('There are no {facet_type} that match this search').format(facet_type=title) }}
-    </p>
-    {% endif %}
-    {% endwith %}
+              {% endif %}
+            </div>
+          {% else %}
+            <p class="text-gray-500 text-sm italic">
+              {{ _('There are no {facet_type} that match this search').format(facet_type=title) }}
+            </p>
+          {% endif %}
+        {% endblock %}
+      </section>
     {% endblock %}
-</section>
-{% endblock %}
-{% endif %}
-{% endwith %}
+  {% endif %}
 {% endblock %}

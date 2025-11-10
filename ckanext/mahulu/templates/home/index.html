@@ -71,7 +71,7 @@
 </section>
 
 <!-- Topics -->
-<section class="max-w-6xl mx-auto px-4 py-20">
+<section class="bg-gray-200 mx-auto px-20 py-20">
   <div class="text-center mb-12">
     <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">Telusuri Topik</h2>
     <p class="text-gray-600 max-w-2xl mx-auto">Pilih kategori yang sesuai untuk menemukan dataset yang Anda butuhkan.</p>
@@ -90,50 +90,103 @@
   </div>
 </section>
 
-<!-- Stats & Orgs -->
-<section class="max-w-6xl mx-auto px-4 pb-20 grid md:grid-cols-2 gap-8">
-  <!-- Stats -->
-  <div class="relative bg-white rounded-2xl border border-gray-200 p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-    <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-100 rounded-full -translate-y-16 translate-x-16 opacity-30 blur-2xl"></div>
-    <h3 class="text-xl font-bold text-gray-900 mb-6">Statistik Portal</h3>
-    <div class="flex gap-8">
-      <a href="{{ h.url_for('dataset.search') }}" class="flex-1 text-center group">
-        <div class="text-4xl font-extrabold text-indigo-600 group-hover:text-indigo-700 transition">{{ h.SI_number_span(stats.dataset_count) }}</div>
-        <div class="text-sm text-gray-600 mt-1">Dataset</div>
-      </a>
-      <a href="{{ h.url_for('organization.index') }}" class="flex-1 text-center group">
-        <div class="text-4xl font-extrabold text-indigo-600 group-hover:text-indigo-700 transition">{{ h.SI_number_span(stats.organization_count) }}</div>
-        <div class="text-sm text-gray-600 mt-1">Organisasi</div>
+<!-- Statistik Portal -->
+<section class="max-w-6xl mx-auto px-4 py-16">
+  <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-10">
+    Top Organization & Pengujung Harian
+  </h2>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+    <!-- Total Dataset -->
+    <div class="group bg-white border border-gray-200 rounded-lg p-8 flex flex-col justify-between shadow-sm hover:shadow-md hover:bg-green-700 text-gray-900 hover:text-white transition-all duration-300">
+      <div>
+        <div class="text-5xl font-extrabold mb-4">{{ h.SI_number_span(stats.dataset_count) }}</div>
+        <h3 class="text-lg font-semibold mb-2">Total Dataset</h3>
+        <p class="text-sm text-gray-600 group-hover:text-white mb-6">
+          Kumpulan data mentah dalam bentuk tabel yang dapat diolah lebih lanjut.
+        </p>
+      </div>
+      <a href="{{ h.url_for('dataset.search') }}" class="inline-flex items-center text-sm font-semibold text-green-700 group-hover:text-white hover:underline">
+        Lihat Selengkapnya
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
       </a>
     </div>
-  </div>
 
-  <!-- Top Organizations -->
-  <div class="relative bg-white rounded-2xl border border-gray-200 p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-    <div class="absolute top-0 left-0 w-32 h-32 bg-sky-100 rounded-full -translate-y-16 -translate-x-16 opacity-30 blur-2xl"></div>
-    <h3 class="text-xl font-bold text-gray-900 mb-6">Organisasi Populer</h3>
-    <ul class="space-y-4">
-      {% for item in top_organization %}
-        <li>
-          <a href="{{ h.url_for(item.type ~ '.read', id=item.name) }}"
-             class="flex items-center justify-between text-sm p-3 rounded-lg hover:bg-gray-50 transition">
-            <span class="text-gray-800 font-medium">{{ item.title }}</span>
-            <span class="px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 font-semibold">{{ item.packages|length }}</span>
-          </a>
-        </li>
-      {% endfor %}
-    </ul>
+    <!-- Total Mapset -->
+    <div class="group bg-white border border-gray-200 rounded-lg p-8 flex flex-col justify-between shadow-sm hover:shadow-md hover:bg-green-700 text-gray-900 hover:text-white transition-all duration-300">
+      <div>
+        <div class="text-5xl font-extrabold mb-4">{{ h.SI_number_span(stats.group_count or 0) }}</div>
+        <h3 class="text-lg font-semibold mb-2">Total Mapset</h3>
+        <p class="text-sm text-gray-600 group-hover:text-white mb-6">
+          Kumpulan data spasial atau peta yang dapat ditampilkan dalam bentuk visual interaktif.
+        </p>
+      </div>
+      <a href="/mapset" class="inline-flex items-center text-sm font-semibold text-green-700 group-hover:text-white hover:underline">
+        Lihat Selengkapnya
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- Total Visualisasi -->
+    <div class="group bg-white border border-gray-200 rounded-lg p-8 flex flex-col justify-between shadow-sm hover:shadow-md hover:bg-green-700 text-gray-900 hover:text-white transition-all duration-300">
+      <div>
+        <div class="text-5xl font-extrabold mb-4">{{ h.SI_number_span(stats.visualization_count or 0) }}</div>
+        <h3 class="text-lg font-semibold mb-2">Total Visualisasi</h3>
+        <p class="text-sm text-gray-600 group-hover:text-white mb-6">
+          Gambaran informasi data tertentu dalam bentuk grafik atau diagram.
+        </p>
+      </div>
+      <a href="/visualisasi" class="inline-flex items-center text-sm font-semibold text-green-700 group-hover:text-white hover:underline">
+        Lihat Selengkapnya
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- Total Infografik -->
+    <div class="group bg-white border border-gray-200 rounded-lg p-8 flex flex-col justify-between shadow-sm hover:shadow-md hover:bg-green-700 text-gray-900 hover:text-white transition-all duration-300">
+      <div>
+        <div class="text-5xl font-extrabold mb-4">{{ h.SI_number_span(stats.infographic_count or 0) }}</div>
+        <h3 class="text-lg font-semibold mb-2">Total Infografik</h3>
+        <p class="text-sm text-gray-600 group-hover:text-white mb-6">
+          Informasi yang disajikan dalam bentuk grafik agar mudah dipahami.
+        </p>
+      </div>
+      <a href="/infografik" class="inline-flex items-center text-sm font-semibold text-green-700 group-hover:text-white hover:underline">
+        Lihat Selengkapnya
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+
   </div>
 </section>
 
+
 <!-- Latest Datasets -->
-<section class="max-w-6xl mx-auto px-4 pb-20">
+<section class=" mx-auto p-20 bg-gray-200">
+  {{ h.snippet('home/snippets/horizontal_dataset_list.html', packages=h.mahulu_newset_dataset()) }}
+</section>
+
+<!-- User Traffic -->
+<section class="max-w-6xl mx-auto px-4 py-16">
+  {{ h.snippet('home/snippets/user_traffic.html', user_traffic_data=user_traffic_data) }}
+</section>
+
+<!-- Latest Datasets -->
+<!-- <section class="max-w-6xl mx-auto px-4 pb-20">
   <div class="text-center mb-12">
     <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">Dataset Terbaru</h2>
     <p class="text-gray-600 max-w-2xl mx-auto">Temukan dataset paling mutakhir dari berbagai organisasi.</p>
   </div>
   <div class="bg-white rounded-2xl border border-gray-200 shadow-lg md:flex">
-    <!-- Facets -->
     <aside class="md:w-1/3 p-6 border-b md:border-b-0 md:border-r border-gray-200">
       <h3 class="text-base font-semibold text-gray-900 mb-4">Filter</h3>
       {% for facet in facet_titles %}
@@ -143,8 +196,6 @@
                       search_facets=search_facets) }}
       {% endfor %}
     </aside>
- 
-    <!-- List -->
     <div class="md:w-2/3 p-6">
       {% block form %}
         {% set facets = {
@@ -166,5 +217,5 @@
                    packages=h.mahulu_newset_dataset()) }}
     </div>
   </div>
-</section>
+</section> -->
 {% endblock -%}

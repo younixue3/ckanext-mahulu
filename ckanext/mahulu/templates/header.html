@@ -1,5 +1,5 @@
 {% set dataset_type = h.default_package_type() %}
-<header class="bg-[#22184c] text-white fixed w-full z-50 top-0 shadow-lg">
+<header class="bg-[#22184c] text-white fixed w-full z-50 h-28 top-0 shadow-lg">
   <nav class="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8" aria-label="Global">
     <!-- Logo -->
     <div class="flex lg:flex-1">
@@ -21,11 +21,11 @@
 
     <!-- Desktop Navigation -->
     <div class="hidden lg:flex lg:gap-x-8 xl:gap-x-12">
-      <a href="{{ h.url_for('dataset.search') }}" class="text-sm font-semibold leading-6 hover:text-gray-300 transition">Datasets</a>
-      <a href="{{ h.url_for('organization.index') }}" class="text-sm font-semibold leading-6 hover:text-gray-300 transition">Organizations</a>
-      <a href="{{ h.url_for('group.index') }}" class="text-sm font-semibold leading-6 hover:text-gray-300 transition">Groups</a>
-      <a href="{{ h.url_for('infographic.infographic_data') }}" class="text-sm font-semibold leading-6">Infographic Data</a>
-      <a href="{{ h.url_for('home.about') }}" class="text-sm font-semibold leading-6 hover:text-gray-300 transition">About</a>
+      <a href="{{ h.url_for('dataset.search') }}" class="text-sm font-semibold leading-6 text-white hover:text-gray-300 transition">Datasets</a>
+      <a href="{{ h.url_for('organization.index') }}" class="text-sm font-semibold leading-6 text-white hover:text-gray-300 transition">Organizations</a>
+      <a href="{{ h.url_for('group.index') }}" class="text-sm font-semibold leading-6 text-white hover:text-gray-300 transition">Groups</a>
+      <a href="{{ h.url_for('infographic.infographic_data') }}" class="text-sm font-semibold text-white leading-6">Infographic Data</a>
+      <a href="{{ h.url_for('home.about') }}" class="text-sm font-semibold leading-6 text-white hover:text-gray-300 transition">About</a>
     </div>
 
     <!-- Desktop Account -->
@@ -73,9 +73,9 @@
       </div>
       {% else %}
       <div class="border-t border-white/10 mt-2 pt-2 space-y-1">
-        <a href="{{ h.url_for('user.login') }}" class="block rounded-md px-3 py-2 text-base font-medium hover:bg-white/10">Log in</a>
+        <a href="{{ h.url_for('user.login') }}" class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-white/10">Log in</a>
         {% if h.check_access('user_create') %}
-        <a href="{{ h.url_for('user.register') }}" class="block rounded-md px-3 py-2 text-base font-medium hover:bg-white/10">Register</a>
+        <a href="{{ h.url_for('user.register') }}" class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-white/10">Register</a>
         {% endif %}
       </div>
       {% endif %}

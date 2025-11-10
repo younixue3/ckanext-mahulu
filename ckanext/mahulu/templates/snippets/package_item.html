@@ -7,16 +7,16 @@
         {% block content %}
             {% block heading %}
                 <div class="flex items-center gap-2 mb-2">
-                    <h2 class="text-lg font-semibold text-gray-900 truncate">
+                    <h2 class="text-lg font-semibold text-blue-900 truncate">
                         {% block heading_private %}
                             {% if package.private %}
-                                <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-md bg-gray-100 text-gray-700">
+                                <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-md bg-blue-100 text-blue-700">
                                     {{ _('Private') }}
                                 </span>
                             {% endif %}
                         {% endblock %}
                         {% block heading_title %}
-                            <a class="text-indigo-600 hover:text-indigo-500" href="{{ h.url_for('%s.read' % package.type, id=package.name) }}">
+                            <a class="text-blue-600 hover:text-blue-500" href="{{ h.url_for('%s.read' % package.type, id=package.name) }}">
                                 {{ title|truncate(80) }}
                             </a>
                         {% endblock %}
@@ -38,7 +38,7 @@
 
             {% if package.organization %}
                 <div class="mb-2">
-                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-md bg-indigo-100 text-indigo-700">
+                    <span class="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-md bg-blue-100 text-blue-700">
                         {{ package.organization.title }}
                     </span>
                 </div>
@@ -46,9 +46,9 @@
 
             {% block notes %}
                 {% if notes %}
-                    <p class="text-sm text-gray-600 line-clamp-3">{{ notes|urlize }}</p>
+                    <p class="text-sm text-blue-700 line-clamp-3">{{ notes|urlize }}</p>
                 {% else %}
-                    <p class="text-sm text-gray-400 italic">
+                    <p class="text-sm text-blue-400 italic">
                         {{ h.humanize_entity_type('package', package.type, 'no description') or _("There is no description for this dataset") }}
                     </p>
                 {% endif %}
@@ -64,7 +64,7 @@
                         {% for resource in h.dict_list_reduce(package.resources, 'format') %}
                             <li>
                                 <a href="{{ h.url_for(package.type ~ '.read', id=package.name) }}"
-                                   class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200">
+                                   class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-md bg-blue-100 text-blue-700 hover:bg-blue-200">
                                     {{ resource }}
                                 </a>
                             </li>

@@ -1,13 +1,6 @@
 {% extends "base.html" %}
 
 {%- block page -%}
-
-  {% block skip %}
-    <div class="visually-hidden-focusable">
-      <a href="#content">{{ _('Skip to main content') }}</a>
-    </div>
-  {% endblock %}
-
   {#
   Override the header on a page-by-page basis by extending this block.
   For sitewide header changes, override header.html instead.
