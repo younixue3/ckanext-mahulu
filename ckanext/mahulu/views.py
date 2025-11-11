@@ -6,9 +6,11 @@ mahulu = Blueprint(
     "mahulu", __name__)
 
 def page():
-    # Get user traffic data from CKAN API
-    response = requests.get('http://localhost:5000/api/3/action/user_list')
-    user_traffic_data = response.json()
+    user_traffic_data = {
+        'daily_visits': 10,
+        'total_visits': 100,
+        'growth': '+2.3%'
+    }
 
     return render_template('home/index.html', user_traffic_data=user_traffic_data)
 
