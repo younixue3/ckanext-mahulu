@@ -2,6 +2,7 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from ckan.common import config
 from ckanext.mahulu.infographic_blueprint import infographic_blueprint
+from ckanext.mahulu import helpers as mahulu_helpers
 
 
 
@@ -90,7 +91,8 @@ class MahuluPlugin(plugins.SingletonPlugin):
     def get_helpers(self):
         return {
             'mahulu_newset_dataset': newest_dataset,
-            'mahulu_showing_dataset': showing_dataset
+            'mahulu_showing_dataset': showing_dataset,
+            'get_user_traffic_data': mahulu_helpers.get_user_traffic_data
             }
 
     # IValidators
