@@ -79,6 +79,25 @@ do:
     pip install -r dev-requirements.txt
 
 
+## SISMUT visitors integration (JWT)
+
+To display real visitor metrics from SISMUT on the home page, set the following environment variables (copy `.env.example` to `.env` and fill the values):
+
+```
+SISMUT_URL=http://satu-data.test/
+SISMUT_TOKEN=your-jwt-token-here
+SISMUT_SECRET=optional-secret-if-required
+```
+
+Behavior:
+- The helper `h.get_user_traffic_data()` sends `Authorization: Bearer <SISMUT_TOKEN>` to `SISMUT_URL/api/ckan/visitors`.
+- It includes `X-CKAN-SECRET` if `SISMUT_SECRET` is set.
+- It expects a JSON with `records` containing objects with `period`, `date`, and `count`. Daily records are shaped into `{ date, count }` for the chart.
+- If the fetch fails or env is not set, the helper falls back to synthetic data so the widget still renders.
+
+If your API uses a different path or query (e.g., `?period=daily&limit=30`), adjust the request in `ckanext/mahulu/helpers.py`.
+
+
 ## Tests
 
 To run the tests, do:
