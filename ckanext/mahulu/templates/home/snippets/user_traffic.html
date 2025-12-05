@@ -1,97 +1,36 @@
-<!-- User Traffic Widget -->
-<div class="mx-auto bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
-  <!-- Header -->
-  <div class="px-6 py-5 bg-gradient-to-br from-blue-50 to-indigo-100 border-b border-gray-100">
-    <h4 class="text-xl font-bold text-gray-800 tracking-tight">User Traffic</h4>
-    <p class="text-xs text-gray-500 mt-1">Last 30 days</p>
-  </div>
+<section class="max-w-6xl mx-auto px-4 py-16">
+  <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-10">
+    Pengunjung — Harian, Bulanan, dan Total
+  </h2>
 
-  <!-- Chart -->
-  <div class="p-6 bg-gray-50">
-    <canvas id="userTrafficChart" class="w-full h-56 rounded-lg"></canvas>
-  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-  <!-- Stats -->
-  <div class="px-6 py-4 bg-white border-t border-gray-100 flex justify-between items-center">
-    <div class="text-center">
-      <p class="text-2xl font-semibold text-gray-800">{{ user_traffic_data.total_visits|default('12.4k') }}</p>
-      <p class="text-xs text-gray-500">Total Visits</p>
+    <div class="group bg-white border border-gray-200 rounded-lg p-8 flex flex-col justify-between shadow-sm hover:shadow-md hover:bg-indigo-900 text-gray-900 hover:text-white transition-all duration-300">
+      <div>
+        <div class="text-5xl font-extrabold mb-4">{{ h.SI_number_span(user_traffic_data.daily_total or 0) }}</div>
+        <h3 class="text-lg font-semibold mb-2">Harian</h3>
+        <p class="text-sm text-gray-600 group-hover:text-white mb-6">Jumlah kunjungan hari ini.</p>
+      </div>
+      <div class="text-sm font-semibold text-indigo-900 group-hover:text-white">{{ (user_traffic_data.growth or '+0%') }}</div>
     </div>
-    <div class="text-center">
-      <p class="text-2xl font-semibold text-green-600">{{ user_traffic_data.growth|default('+8.3%') }}</p>
-      <p class="text-xs text-gray-500">vs last month</p>
+
+    <div class="group bg-white border border-gray-200 rounded-lg p-8 flex flex-col justify-between shadow-sm hover:shadow-md hover:bg-indigo-900 text-gray-900 hover:text-white transition-all duration-300">
+      <div>
+        <div class="text-5xl font-extrabold mb-4">{{ h.SI_number_span(user_traffic_data.monthly_total or 0) }}</div>
+        <h3 class="text-lg font-semibold mb-2">Bulanan</h3>
+        <p class="text-sm text-gray-600 group-hover:text-white mb-6">Akumulasi kunjungan bulan berjalan.</p>
+      </div>
+      <div class="text-sm font-semibold text-indigo-900 group-hover:text-white">{{ (user_traffic_data.monthly_growth or user_traffic_data.growth or '+0%') }}</div>
     </div>
+
+    <div class="group bg-white border border-gray-200 rounded-lg p-8 flex flex-col justify-between shadow-sm hover:shadow-md hover:bg-indigo-900 text-gray-900 hover:text-white transition-all duration-300">
+      <div>
+        <div class="text-5xl font-extrabold mb-4">{{ h.SI_number_span(user_traffic_data.total_total or user_traffic_data.total_visits or 0) }}</div>
+        <h3 class="text-lg font-semibold mb-2">Total</h3>
+        <p class="text-sm text-gray-600 group-hover:text-white mb-6">Total kumulatif dalam periode yang ditampilkan.</p>
+      </div>
+      <div class="text-sm font-semibold text-indigo-900 group-hover:text-white">&nbsp;</div>
+    </div>
+
   </div>
-</div>
-
-<!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<script>
-  (function () {
-    // Wait for DOM to be ready
-    document.addEventListener('DOMContentLoaded', function () {
-      const canvas = document.getElementById('userTrafficChart');
-      if (!canvas) return;
-
-      // Use passed data or fallback to generated sample
-      const rawData = {{ h.dump_json(user_traffic_data.daily_visits|default([])) }};
-      const chartData = rawData.length ? rawData : Array.from({ length: 30 }, () => Math.floor(Math.random() * 800) + 200);
-
-      // Generate last 30 days labels
-      const labels = Array.from({ length: 30 }, (_, i) => {
-        const d = new Date();
-        d.setDate(d.getDate() - (29 - i));
-        return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-      });
-
-      // Chart dataset
-      const data = {
-        labels,
-        datasets: [{
-          label: 'Daily Visits',
-          data: chartData,
-          borderColor: '#3b82f6',
-          backgroundColor: 'rgba(59, 130, 246, 0.1)',
-          tension: 0.35,
-          fill: true,
-          pointRadius: 0,
-          pointHoverRadius: 5,
-          pointBackgroundColor: '#3b82f6'
-        }]
-      };
-
-      // Chart configuration
-      const config = {
-        type: 'line',
-        data,
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              backgroundColor: 'rgba(0,0,0,0.8)',
-              padding: 8,
-              cornerRadius: 4,
-              titleFont: { size: 12 },
-              bodyFont: { size: 11 }
-            }
-          },
-          scales: {
-            x: {
-              grid: { display: false },
-              ticks: { maxTicksLimit: 6, font: { size: 10 } }
-            },
-            y: {
-              grid: { color: 'rgba(0,0,0,0.05)' },
-              ticks: { maxTicksLimit: 4, font: { size: 10 } }
-            }
-          }
-        }
-      };
-
-      // Render chart
-      new Chart(canvas, config);
-    });
-  })();
-</script>
+</section>

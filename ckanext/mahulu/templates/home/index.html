@@ -15,160 +15,18 @@
     <!-- Text & Search -->
     <div class="flex-1 text-white">
       <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">
-        Temukan Data Kabupaten Mahakam Ulu dengan Mudah
+        Portal Data Terbuka Kabupaten Mahakam Ulu
       </h1>
       <p class="text-lg mb-6 opacity-90">
-        Ketik kata kunci dan tekan cari — data terbuka kini lebih dekat.
+        Akses informasi publik secara cepat, akurat, dan transparan.
       </p>
-      {% block search %}
-        {% snippet 'home/snippets/search.html', search_facets=search_facets %}
-      {% endblock %}
     </div>
-
     <!-- Decorative Image -->
     <div class="hidden md:flex flex-1 justify-center">
       <img class="h-64 object-contain drop-shadow-lg" src="/g2048.png" alt="Open data illustration">
     </div>
   </div>
 </section>
-
-
-<!-- About Section -->
-<section class="relative bg-gradient-to-br from-indigo-50 to-sky-50 overflow-hidden">
-  <div class="absolute inset-0 opacity-10">
-    <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
-      <defs>
-        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="indigo" stroke-width="1"/>
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#grid)"/>
-    </svg>
-  </div>
-  <div class="max-w-6xl mx-auto px-4 py-20 relative z-10">
-    <div class="grid md:grid-cols-2 gap-12 items-center">
-      <div>
-        <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Tentang Portal Data Mahakam Ulu</h2>
-        <p class="text-gray-700 mb-6 leading-relaxed">
-          Portal ini menghadirkan data terbuka dari Kabupaten Mahakam Ulu secara transparan dan akuntabel. 
-          Jelajahi dataset dari berbagai sektor untuk mendukung pengambilan keputusan, penelitian, dan inovasi masyarakat.
-        </p>
-        <a href="/about" 
-           class="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition-all duration-300 shadow-lg hover:shadow-indigo-500/40">
-          Pelajari Selengkapnya
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-          </svg>
-        </a>
-      </div>
-      <div class="relative">
-        <div class="absolute -top-4 -left-4 w-72 h-72 bg-indigo-200 rounded-full opacity-30 blur-2xl"></div>
-        <div class="absolute -bottom-4 -right-4 w-72 h-72 bg-sky-200 rounded-full opacity-30 blur-2xl"></div>
-        <img src="/about-illus.png" alt="Open data illustration" class="relative z-10 w-full drop-shadow-xl">
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Topics -->
-<section class="bg-gray-200 mx-auto px-20 py-20">
-  <div class="text-center mb-12">
-    <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">Telusuri Topik</h2>
-    <p class="text-gray-600 max-w-2xl mx-auto">Pilih kategori yang sesuai untuk menemukan dataset yang Anda butuhkan.</p>
-  </div>
-  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6">
-    {% for item in groups %}
-      <a href="{{ h.url_for(item.type ~ '.read', id=item.name) }}"
-         class="group relative flex flex-col items-center p-5 rounded-2xl bg-white border border-gray-200 hover:border-indigo-400 hover:shadow-xl transition-all duration-300 overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-indigo-50 to-sky-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        <img class="h-16 w-16 object-contain mb-3 z-10 group-hover:scale-110 transition-transform duration-300"
-             src="{{ item.image_display_url or '/images/placeholder-group.png' }}"
-             alt="{{ item.title }}">
-        <span class="text-sm text-gray-700 group-hover:text-indigo-600 z-10">{{ item.title }}</span>
-      </a>
-    {% endfor %}
-  </div>
-</section>
-
-<!-- Statistik Portal -->
-<section class="max-w-6xl mx-auto px-4 py-16">
-  <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 mb-10">
-    Top Organization & Pengujung Harian
-  </h2>
-
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
-    <!-- Total Dataset -->
-    <div class="group bg-white border border-gray-200 rounded-lg p-8 flex flex-col justify-between shadow-sm hover:shadow-md hover:bg-green-700 text-gray-900 hover:text-white transition-all duration-300">
-      <div>
-        <div class="text-5xl font-extrabold mb-4">{{ h.SI_number_span(stats.dataset_count) }}</div>
-        <h3 class="text-lg font-semibold mb-2">Total Dataset</h3>
-        <p class="text-sm text-gray-600 group-hover:text-white mb-6">
-          Kumpulan data mentah dalam bentuk tabel yang dapat diolah lebih lanjut.
-        </p>
-      </div>
-      <a href="{{ h.url_for('dataset.search') }}" class="inline-flex items-center text-sm font-semibold text-green-700 group-hover:text-white hover:underline">
-        Lihat Selengkapnya
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </a>
-    </div>
-
-    <!-- Total Mapset -->
-    <div class="group bg-white border border-gray-200 rounded-lg p-8 flex flex-col justify-between shadow-sm hover:shadow-md hover:bg-green-700 text-gray-900 hover:text-white transition-all duration-300">
-      <div>
-        <div class="text-5xl font-extrabold mb-4">{{ h.SI_number_span(stats.group_count or 0) }}</div>
-        <h3 class="text-lg font-semibold mb-2">Total Mapset</h3>
-        <p class="text-sm text-gray-600 group-hover:text-white mb-6">
-          Kumpulan data spasial atau peta yang dapat ditampilkan dalam bentuk visual interaktif.
-        </p>
-      </div>
-      <a href="/mapset" class="inline-flex items-center text-sm font-semibold text-green-700 group-hover:text-white hover:underline">
-        Lihat Selengkapnya
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </a>
-    </div>
-
-    <!-- Total Visualisasi -->
-    <div class="group bg-white border border-gray-200 rounded-lg p-8 flex flex-col justify-between shadow-sm hover:shadow-md hover:bg-green-700 text-gray-900 hover:text-white transition-all duration-300">
-      <div>
-        <div class="text-5xl font-extrabold mb-4">{{ h.SI_number_span(stats.visualization_count or 0) }}</div>
-        <h3 class="text-lg font-semibold mb-2">Total Visualisasi</h3>
-        <p class="text-sm text-gray-600 group-hover:text-white mb-6">
-          Gambaran informasi data tertentu dalam bentuk grafik atau diagram.
-        </p>
-      </div>
-      <a href="/visualisasi" class="inline-flex items-center text-sm font-semibold text-green-700 group-hover:text-white hover:underline">
-        Lihat Selengkapnya
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </a>
-    </div>
-
-    <!-- Total Infografik -->
-    <div class="group bg-white border border-gray-200 rounded-lg p-8 flex flex-col justify-between shadow-sm hover:shadow-md hover:bg-green-700 text-gray-900 hover:text-white transition-all duration-300">
-      <div>
-        <div class="text-5xl font-extrabold mb-4">{{ h.SI_number_span(stats.infographic_count or 0) }}</div>
-        <h3 class="text-lg font-semibold mb-2">Total Infografik</h3>
-        <p class="text-sm text-gray-600 group-hover:text-white mb-6">
-          Informasi yang disajikan dalam bentuk grafik agar mudah dipahami.
-        </p>
-      </div>
-      <a href="/infografik" class="inline-flex items-center text-sm font-semibold text-green-700 group-hover:text-white hover:underline">
-        Lihat Selengkapnya
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-        </svg>
-      </a>
-    </div>
-
-  </div>
-</section>
-
 
 <!-- Latest Datasets -->
 <section class=" mx-auto p-20 bg-gray-200">
@@ -183,6 +41,30 @@
 <!-- User Traffic -->
 <section class="max-w-6xl mx-auto px-4 py-16">
   {{ h.snippet('home/snippets/user_traffic.html', user_traffic_data=(user_traffic_data or h.get_user_traffic_data())) }}
+</section>
+
+<!-- Topics -->
+<section class="bg-gray-200 mx-auto px-20 py-20">
+  <div class="text-center mb-12">
+    <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">Telusuri Topik</h2>
+    <p class="text-gray-600 max-w-2xl mx-auto">Pilih kategori yang sesuai untuk menemukan dataset yang Anda butuhkan.</p>
+  </div>
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6">
+    {% for item in groups %}
+      <a href="{{ h.url_for(item.type ~ '.read', id=item.name) }}" class="group block text-center">
+        <div class="relative overflow-hidden rounded-2xl shadow-sm group-hover:shadow-md transition-all duration-300" style="aspect-ratio: 1/1;">
+          <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
+               src="{{ item.image_display_url or '/images/placeholder-group.png' }}"
+               alt="{{ item.title }}">
+        </div>
+        <span class="mt-3 block text-sm font-medium text-gray-800 group-hover:text-indigo-600">{{ item.title }}</span>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="bg-gray-200 mx-auto px-20 py-20">
+  {{ h.snippet('home/snippets/faq.html') }}
 </section>
 
 <!-- Latest Datasets -->

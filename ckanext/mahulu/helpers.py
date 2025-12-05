@@ -8,7 +8,10 @@ import requests
 import json
 
 LOGGER = logging.getLogger(__name__)
-url_base = "https://4450f6e3767b.ngrok-free.app"
+
+url_base = "https://sismut.esistem.web.id"
+
+# url_base = "https://4450f6e3767b.ngrok-free.app"
 
 
 def mahulu_hello():

@@ -1,25 +1,22 @@
 {% set tags = h.get_facet_items_dict('tags', search_facets, limit=6) %}
-{% set placeholder = _('E.g. environment') %}
+{% set placeholder = _('Cari dataset...') %}
 {% set dataset_type = h.default_package_type() %}
 
-<form method="get" action="{% url_for dataset_type ~ '.search' %}" class="max-w-3xl mx-auto">
-  <div class="relative flex items-center bg-white rounded-full shadow-lg overflow-hidden ring-1 ring-gray-200 focus-within:ring-2 focus-within:ring-green-500 transition">
+<form method="get" action="{% url_for dataset_type ~ '.search' %}" class="w-full mb-5">
+  <div class="relative">
     <input
       aria-label="{% block header_site_search_label %}{{ h.humanize_entity_type('package', dataset_type, 'search placeholder') or _('Search datasets') }}{% endblock %}"
       type="text"
       name="q"
       id="field-main-search"
       autocomplete="off"
-      class="w-full pl-6 pr-4 py-3 text-gray-900 placeholder-gray-500 bg-transparent focus:outline-none sm:text-base"
+      class="w-full rounded-xl border border-gray-300 px-5 py-3 pl-10 focus:ring-2 focus:ring-indigo-900 focus:outline-none text-gray-800"
       placeholder="{% block search_placeholder %}{{ placeholder }}{% endblock %}"
+      value="{{ c.q or '' }}"
     />
-    <button
-      type="submit"
-      class="flex-shrink-0 h-12 w-12 rounded-full bg-green-500 hover:bg-green-600 text-white flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition"
-      aria-label="{{ _('Search') }}"
-    >
-      <i class="fa-solid fa-magnifying-glass"></i>
-    </button>
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400 absolute left-3 top-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z"/>
+    </svg>
   </div>
 </form>
 

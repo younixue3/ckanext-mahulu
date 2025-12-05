@@ -1,57 +1,50 @@
 <div class="px-4 py-6">
   <h2 class="text-2xl font-bold text-gray-900 mb-4">Sorotan</h2>
   <div class="flex gap-2 mb-6">
-    <button type="button" data-tab="dataset" class="tab-btn bg-green-600 text-white px-3 py-1.5 rounded-md font-medium">Dataset</button>
+    <button type="button" data-tab="dataset" class="tab-btn bg-indigo-800 text-white px-3 py-1.5 rounded-md font-medium">Dataset</button>
     <button type="button" data-tab="infografik" class="tab-btn bg-gray-100 text-gray-700 px-3 py-1.5 rounded-md font-medium">Infografik</button>
   </div>
 
   <div id="tab-dataset" class="tab-panel block">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-        <div class="bg-blue-200 h-36"></div>
+        <img src="/datasets/pertumbugan-ekonomi-mahulu-berdasarkan-sektor.png" alt="Pertumbuhan Ekonomi Mahakam Ulu" class="w-full h-36 md:h-44 object-cover">
         <div class="p-4">
-          <h3 class="text-gray-900 font-semibold">Inflasi (Y o Y) Bulanan</h3>
-          <p class="text-gray-600 text-sm">Kabupaten/Kota di Jawa Barat</p>
+          <h3 class="text-gray-900 font-semibold">Pertumbuhan Ekonomi Mahakam Ulu Berdasarkan Sektor (2018–2025)</h3>
+          <p class="text-gray-600 text-sm">Kontribusi sektor pertanian, pertambangan, pariwisata, dan jasa terhadap PDRB tiap tahun.</p>
         </div>
       </div>
       <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-        <div class="bg-amber-200 h-36"></div>
+        <img src="/datasets/distribusi-akses-jaringan-mahulu.png" alt="Distribusi Akses Jaringan Internet" class="w-full h-36 md:h-44 object-cover">
         <div class="p-4">
-          <h3 class="text-gray-900 font-semibold">Prevalensi Balita Stunting</h3>
-          <p class="text-gray-600 text-sm">Kabupaten/Kota di Jawa Barat</p>
+          <h3 class="text-gray-900 font-semibold">Distribusi Akses Jaringan Internet di Mahakam Ulu per Kecamatan</h3>
+          <p class="text-gray-600 text-sm">Cakupan internet, jumlah BTS aktif, wilayah blank spot, dan penetrasi penggunaan.</p>
         </div>
       </div>
       <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-        <div class="bg-emerald-200 h-36"></div>
+        <img src="/datasets/statistik-pariwisata-mahulu.png" alt="Statistik Pariwisata Mahakam Ulu" class="w-full h-36 md:h-44 object-cover">
         <div class="p-4">
-          <h3 class="text-gray-900 font-semibold">Proyeksi UMKM</h3>
-          <p class="text-gray-600 text-sm">Kabupaten/Kota di Jawa Barat</p>
+          <h3 class="text-gray-900 font-semibold">Statistik Pariwisata Mahakam Ulu: Jumlah Kunjungan dan Pendapatan Wisata</h3>
+          <p class="text-gray-600 text-sm">Wisatawan lokal & mancanegara, pendapatan, dan destinasi favorit di Mahakam Ulu.</p>
         </div>
       </div>
     </div>
   </div>
 
   <div id="tab-infografik" class="tab-panel hidden">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-        <div class="bg-indigo-200 h-36"></div>
+        <img src="/datasets/angka-kemiskinan-ketenagakerjaan-mahulu.png" alt="Angka Kemiskinan & Ketenagakerjaan Mahakam Ulu" class="w-full h-36 md:h-44 object-cover">
         <div class="p-4">
-          <h3 class="text-gray-900 font-semibold">Infografik Populasi</h3>
-          <p class="text-gray-600 text-sm">Tren populasi tahunan</p>
+          <h3 class="text-gray-900 font-semibold">Angka Kemiskinan & Ketenagakerjaan Mahakam Ulu</h3>
+          <p class="text-gray-600 text-sm">Tingkat kemiskinan, jumlah tenaga kerja, dan sektor dominan penyerap tenaga kerja.</p>
         </div>
       </div>
       <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-        <div class="bg-pink-200 h-36"></div>
+        <img src="/datasets/akses-pendidikan-rasio-guru-mahulu.png" alt="Akses Pendidikan dan Rasio Guru–Siswa di Mahakam Ulu" class="w-full h-36 md:h-44 object-cover">
         <div class="p-4">
-          <h3 class="text-gray-900 font-semibold">Infografik Kesehatan</h3>
-          <p class="text-gray-600 text-sm">Indikator kesehatan daerah</p>
-        </div>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-        <div class="bg-teal-200 h-36"></div>
-        <div class="p-4">
-          <h3 class="text-gray-900 font-semibold">Infografik Ekonomi</h3>
-          <p class="text-gray-600 text-sm">Pertumbuhan sektor ekonomi</p>
+          <h3 class="text-gray-900 font-semibold">Akses Pendidikan dan Rasio Guru–Siswa di Mahakam Ulu</h3>
+          <p class="text-gray-600 text-sm">Jumlah sekolah per jenjang, APS, dan rasio guru–siswa per kecamatan.</p>
         </div>
       </div>
     </div>
@@ -73,7 +66,7 @@
           });
           btns.forEach(function(x){
             var active = x.getAttribute('data-tab') === t;
-            x.classList.toggle('bg-green-600', active);
+            x.classList.toggle('bg-indigo-800', active);
             x.classList.toggle('text-white', active);
             x.classList.toggle('bg-gray-100', !active);
             x.classList.toggle('text-gray-700', !active);

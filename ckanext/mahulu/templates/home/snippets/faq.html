@@ -1,0 +1,111 @@
+<section class="bg-indigo-900">
+  <div class="max-w-6xl mx-auto px-4 py-16">
+    <div class="mb-8">
+      <h1 class="text-3xl md:text-4xl font-extrabold text-white leading-tight">Mengapa menggunakan<br> Open Data Mahulu?</h1>
+    </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+    <div>
+      <div class="space-y-4">
+        <button type="button" data-faq="mudah" class="faq-btn group w-full text-left p-5 rounded-2xl border border-indigo-200 bg-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 active">
+          <h2 class="text-xl font-semibold text-gray-900">Temukan data dengan mudah</h2>
+          <p class="text-sm text-gray-600 mt-2">Cari data dari Pemerintah Mahakam Ulu dalam beberapa klik saja</p>
+        </button>
+        <button type="button" data-faq="cepat" class="faq-btn group w-full text-left p-5 rounded-2xl border border-indigo-200 bg-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+          <h2 class="text-xl font-semibold text-gray-900">Dapatkan data dengan cepat</h2>
+          <p class="text-sm text-gray-600 mt-2">Nikmati proses akses data tanpa proses birokrasi panjang</p>
+        </button>
+        <button type="button" data-faq="akurat" class="faq-btn group w-full text-left p-5 rounded-2xl border border-indigo-200 bg-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+          <h2 class="text-xl font-semibold text-gray-900">Data akurat dan mutakhir</h2>
+          <p class="text-sm text-gray-600 mt-2">Dapatkan data lengkap dan terkini resmi dari OPD terkait</p>
+        </button>
+        <button type="button" data-faq="ragam" class="faq-btn group w-full text-left p-5 rounded-2xl border border-indigo-200 bg-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+          <h2 class="text-xl font-semibold text-gray-900">Ragam data tersedia</h2>
+          <p class="text-sm text-gray-600 mt-2">Ada dataset, visualisasi, infografik, artikel, dan mapset</p>
+        </button>
+      </div>
+      <div class="mt-6 flex gap-2">
+        <span class="faq-dot w-2.5 h-2.5 rounded-full bg-indigo-900"></span>
+        <span class="faq-dot w-2.5 h-2.5 rounded-full bg-white"></span>
+        <span class="faq-dot w-2.5 h-2.5 rounded-full bg-white"></span>
+        <span class="faq-dot w-2.5 h-2.5 rounded-full bg-white"></span>
+      </div>
+    </div>
+
+    <div>
+      <div class="relative min-h-[22rem] md:min-h-[26rem]">
+        <div id="faq-mudah" class="faq-panel absolute inset-0 opacity-100 translate-y-0 scale-100 pointer-events-auto transition-all duration-500">
+          <div class="rounded-2xl overflow-hidden border border-indigo-200 bg-white shadow-sm">
+            <div class="h-64 md:h-80 flex items-center justify-end p-6">
+              <img src="/images/faq-easy.svg" alt="Temukan data dengan mudah" class="w-[95%] object-contain">
+            </div>
+          </div>
+        </div>
+        <div id="faq-cepat" class="faq-panel absolute inset-0 opacity-0 translate-y-2 scale-[0.99] pointer-events-none transition-all duration-500">
+          <div class="rounded-2xl overflow-hidden border border-indigo-200 bg-white shadow-sm">
+            <div class="h-64 md:h-80 flex items-center justify-end p-6">
+              <img src="/images/faq-fast.svg" alt="Dapatkan data dengan cepat" class="w-[95%] object-contain">
+            </div>
+          </div>
+        </div>
+        <div id="faq-akurat" class="faq-panel absolute inset-0 opacity-0 translate-y-2 scale-[0.99] pointer-events-none transition-all duration-500">
+          <div class="rounded-2xl overflow-hidden border border-indigo-200 bg-white shadow-sm">
+            <div class="h-64 md:h-80 flex items-center justify-end p-6">
+              <img src="/images/faq-accurate.svg" alt="Data akurat dan mutakhir" class="w-[95%] object-contain">
+            </div>
+          </div>
+        </div>
+        <div id="faq-ragam" class="faq-panel absolute inset-0 opacity-0 translate-y-2 scale-[0.99] pointer-events-none transition-all duration-500">
+          <div class="rounded-2xl overflow-hidden border border-indigo-200 bg-white shadow-sm">
+            <div class="h-64 md:h-80 flex items-center justify-end p-6">
+              <img src="/images/faq-variety.svg" alt="Ragam data tersedia" class="w-[95%] object-contain">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      var btns = document.querySelectorAll('.faq-btn');
+      var panels = {
+        mudah: document.getElementById('faq-mudah'),
+        cepat: document.getElementById('faq-cepat'),
+        akurat: document.getElementById('faq-akurat'),
+        ragam: document.getElementById('faq-ragam')
+      };
+      var dots = document.querySelectorAll('.faq-dot');
+      function setActive(key){
+        Object.keys(panels).forEach(function(k){
+          var el = panels[k];
+          var show = (k === key);
+          el.classList.toggle('opacity-100', show);
+          el.classList.toggle('translate-y-0', show);
+          el.classList.toggle('scale-100', show);
+          el.classList.toggle('pointer-events-auto', show);
+          el.classList.toggle('opacity-0', !show);
+          el.classList.toggle('translate-y-2', !show);
+          el.classList.toggle('scale-[0.99]', !show);
+          el.classList.toggle('pointer-events-none', !show);
+        });
+        btns.forEach(function(b){
+          var active = b.getAttribute('data-faq') === key;
+          b.classList.toggle('ring-2', active);
+          b.classList.toggle('ring-indigo-900', active);
+          b.classList.toggle('shadow-lg', active);
+          b.classList.toggle('scale-[1.01]', active);
+          b.classList.toggle('bg-white', true);
+        });
+        ['mudah','cepat','akurat','ragam'].forEach(function(k, i){
+          dots[i].classList.toggle('bg-indigo-900', k === key);
+          dots[i].classList.toggle('bg-white', k !== key);
+        });
+      }
+      btns.forEach(function(b){
+        b.addEventListener('click', function(){ setActive(b.getAttribute('data-faq')); });
+      });
+      setActive('mudah');
+    })();
+  </script>
+</div></section>
