@@ -175,6 +175,11 @@
   {{ h.snippet('home/snippets/horizontal_dataset_list.html', packages=h.mahulu_newset_dataset()) }}
 </section>
 
+<!-- Sorotan Tabs -->
+<section class="max-w-6xl mx-auto px-4 py-16">
+  {{ h.snippet('home/snippets/tab_dataset.html') }}
+</section>
+
 <!-- User Traffic -->
 <section class="max-w-6xl mx-auto px-4 py-16">
   {{ h.snippet('home/snippets/user_traffic.html', user_traffic_data=(user_traffic_data or h.get_user_traffic_data())) }}
