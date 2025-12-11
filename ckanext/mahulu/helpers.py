@@ -87,15 +87,22 @@ def push_sismut_visitors(records: List[Dict]) -> Dict:
     Expected record keys: period, date, count, iid (optional), url (optional)
     """
     url_base_local = url_base.rstrip('/')
-    endpoint = f"{url_base}/api/v1/ckan/visitors"
+    endpoint = f"{url_base_local}/api/v1/ckan/visitors"
     headers = _build_sismut_headers(url_base)
     payload = {'records': records}
     try:
         LOGGER.info("SISMUT POST %s records=%s", endpoint, len(records))
         resp = requests.post(endpoint, json=payload, headers=headers, timeout=10)
         LOGGER.info("SISMUT POST status: %s", resp.status_code)
-        resp.raise_for_status()
-        return resp.json() or {'status': 'ok'}
+        data = None
+        try:
+            data = resp.json()
+        except Exception:
+            data = None
+        if 200 <= resp.status_code < 300:
+            return {'status': 'ok', 'status_code': resp.status_code, 'response': (data if data is not None else {'text': resp.text})}
+        else:
+            return {'status': 'error', 'status_code': resp.status_code, 'error_text': resp.text}
     except Exception as e:
         LOGGER.warning('SISMUT visitors push failed: %s', e)
         return {'status': 'error', 'error': str(e)}
