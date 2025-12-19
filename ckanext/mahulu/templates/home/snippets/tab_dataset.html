@@ -1,4 +1,7 @@
 <div class="px-4 py-6">
+  {% set dataset_list = h.get_sismut_infografik() %}
+  {% set infografik_list = h.get_sismut_infografik() %}
+
   <h2 class="text-2xl font-bold text-gray-900 mb-4">Sorotan</h2>
   <div class="flex gap-2 mb-6">
     <button type="button" data-tab="dataset" class="tab-btn bg-indigo-800 text-white px-3 py-1.5 rounded-md font-medium">Dataset</button>
@@ -7,46 +10,69 @@
 
   <div id="tab-dataset" class="tab-panel block">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-        <img src="/datasets/pertumbugan-ekonomi-mahulu-berdasarkan-sektor.png" alt="Pertumbuhan Ekonomi Mahakam Ulu" class="w-full h-36 md:h-44 object-cover">
-        <div class="p-4">
-          <h3 class="text-gray-900 font-semibold">Pertumbuhan Ekonomi Mahakam Ulu Berdasarkan Sektor (2018–2025)</h3>
-          <p class="text-gray-600 text-sm">Kontribusi sektor pertanian, pertambangan, pariwisata, dan jasa terhadap PDRB tiap tahun.</p>
+      {% for package in dataset_list[:3] %}
+        {% set item = h.mahulu_showing_dataset(package) %}
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300">
+          <!-- Try to find a resource that is an image, otherwise use placeholder -->
+          {% set image_url = '/images/placeholder-group.png' %}
+          {% if item.resources %}
+            {% for res in item.resources %}
+               {% if res.format and res.format.lower() in ['png', 'jpg', 'jpeg', 'gif'] %}
+                  {% set image_url = res.url %}
+               {% endif %}
+            {% endfor %}
+          {% endif %}
+          
+          <div class="w-full h-36 md:h-44 bg-gray-100 flex items-center justify-center overflow-hidden">
+             {% if image_url != '/images/placeholder-group.png' %}
+                <img src="{{ image_url }}" alt="{{ item.title }}" class="w-full h-full object-cover">
+             {% else %}
+                <span class="text-gray-400 text-4xl font-bold">{{ item.title[:1] }}</span>
+             {% endif %}
+          </div>
+
+          <div class="p-4">
+            <h3 class="text-gray-900 font-semibold line-clamp-2">
+                <a href="{{ h.url_for('dataset.read', id=item.name) }}" class="hover:text-indigo-600">
+                    {{ item.title }}
+                </a>
+            </h3>
+            <p class="text-gray-600 text-sm line-clamp-3 mt-2">{{ (item.notes | default('', true) | striptags) }}</p>
+          </div>
         </div>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-        <img src="/datasets/distribusi-akses-jaringan-mahulu.png" alt="Distribusi Akses Jaringan Internet" class="w-full h-36 md:h-44 object-cover">
-        <div class="p-4">
-          <h3 class="text-gray-900 font-semibold">Distribusi Akses Jaringan Internet di Mahakam Ulu per Kecamatan</h3>
-          <p class="text-gray-600 text-sm">Cakupan internet, jumlah BTS aktif, wilayah blank spot, dan penetrasi penggunaan.</p>
-        </div>
-      </div>
-      <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-        <img src="/datasets/statistik-pariwisata-mahulu.png" alt="Statistik Pariwisata Mahakam Ulu" class="w-full h-36 md:h-44 object-cover">
-        <div class="p-4">
-          <h3 class="text-gray-900 font-semibold">Statistik Pariwisata Mahakam Ulu: Jumlah Kunjungan dan Pendapatan Wisata</h3>
-          <p class="text-gray-600 text-sm">Wisatawan lokal & mancanegara, pendapatan, dan destinasi favorit di Mahakam Ulu.</p>
-        </div>
-      </div>
+      {% endfor %}
+      {% if not dataset_list %}
+        <div class="col-span-3 text-center py-8 text-gray-500">Belum ada dataset yang tersedia.</div>
+      {% endif %}
     </div>
   </div>
 
   <div id="tab-infografik" class="tab-panel hidden">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-        <img src="/datasets/angka-kemiskinan-ketenagakerjaan-mahulu.png" alt="Angka Kemiskinan & Ketenagakerjaan Mahakam Ulu" class="w-full h-36 md:h-44 object-cover">
+      {% for item in infografik_list %}
+      <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300">
+        {% set img_url = item.image or item.file or item.url or '' %}
+        {% if img_url and not img_url.startswith('http') %}
+           {% set img_url = 'https://sismut.esistem.web.id/' ~ img_url.lstrip('/') %}
+        {% endif %}
+        
+        <div class="w-full h-48 md:h-64 bg-gray-100 flex items-center justify-center overflow-hidden">
+             {% if img_url %}
+               <img src="{{ img_url }}" alt="{{ item.title or item.judul }}" class="w-full h-full object-contain">
+             {% else %}
+               <span class="text-gray-400">No Image</span>
+             {% endif %}
+        </div>
+
         <div class="p-4">
-          <h3 class="text-gray-900 font-semibold">Angka Kemiskinan & Ketenagakerjaan Mahakam Ulu</h3>
-          <p class="text-gray-600 text-sm">Tingkat kemiskinan, jumlah tenaga kerja, dan sektor dominan penyerap tenaga kerja.</p>
+          <h3 class="text-gray-900 font-semibold">{{ item.title or item.judul or 'Infografik' }}</h3>
+          <p class="text-gray-600 text-sm mt-2 line-clamp-3">{{ (item.description or item.keterangan or item.desc or '') | striptags }}</p>
         </div>
       </div>
-      <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-        <img src="/datasets/akses-pendidikan-rasio-guru-mahulu.png" alt="Akses Pendidikan dan Rasio Guru–Siswa di Mahakam Ulu" class="w-full h-36 md:h-44 object-cover">
-        <div class="p-4">
-          <h3 class="text-gray-900 font-semibold">Akses Pendidikan dan Rasio Guru–Siswa di Mahakam Ulu</h3>
-          <p class="text-gray-600 text-sm">Jumlah sekolah per jenjang, APS, dan rasio guru–siswa per kecamatan.</p>
-        </div>
-      </div>
+      {% endfor %}
+      {% if not infografik_list %}
+         <div class="col-span-2 text-center py-8 text-gray-500">Belum ada infografik yang tersedia.</div>
+      {% endif %}
     </div>
   </div>
 

@@ -94,6 +94,7 @@ class MahuluPlugin(plugins.SingletonPlugin):
             'mahulu_newset_dataset': newest_dataset,
             'mahulu_showing_dataset': showing_dataset,
             'get_user_traffic_data': mahulu_helpers.get_user_traffic_data,
+            'get_sismut_infografik': mahulu_helpers.get_sismut_infografik,
             'push_sismut_visitors': mahulu_helpers.push_sismut_visitors,
             }
 

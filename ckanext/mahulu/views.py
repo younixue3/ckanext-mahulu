@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, g
 import logging
 import datetime
 import random
+from ckanext.mahulu import helpers as mahulu_helpers
 
 # Define a Mahulu blueprint and routes
 mahulu_blueprint = Blueprint('mahulu', __name__)
@@ -11,32 +12,14 @@ LOGGER = logging.getLogger(__name__)
 @mahulu_blueprint.route('/hello_plugin', endpoint='hello_plugin')
 @mahulu_blueprint.route('/', endpoint='mahulu_home')
 def page():
-    # Provide user_traffic_data with daily, monthly, and total
-    today = datetime.date.today()
-    days = []
-    for i in range(60):
-        d = today - datetime.timedelta(days=(59 - i))
-        days.append({'date': d, 'count': random.randint(200, 1000)})
-
-    daily_total = next((x['count'] for x in days if x['date'] == today), 0)
-    monthly_total = sum(x['count'] for x in days if x['date'].year == today.year and x['date'].month == today.month)
-    prev_month_date = (today.replace(day=1) - datetime.timedelta(days=1))
-    prev_month_total = sum(x['count'] for x in days if x['date'].year == prev_month_date.year and x['date'].month == prev_month_date.month)
-    total_total = sum(x['count'] for x in days)
-
-    monthly_growth = (
-        f"{((monthly_total - prev_month_total) / prev_month_total * 100):.1f}%" if prev_month_total > 0 else '+0%'
-    )
-
-    daily_visits = [{'date': x['date'].isoformat(), 'count': x['count']} for x in days[-30:]]
-    user_traffic_data = {
-        'daily_visits': daily_visits,
-        'daily_total': daily_total,
-        'monthly_total': monthly_total,
-        'total_total': total_total,
-        'monthly_growth': monthly_growth,
-        'growth': monthly_growth,
-    }
+    # Use data from SISMUT push response if available, otherwise use helper fallback
+    user_traffic_data = getattr(g, 'sismut_stats', None)
+    
+    # if not user_traffic_data:
+    #     # If push didn't happen or failed, or didn't return stats, fallback to helper
+    #     # Note: helpers.get_user_traffic_data() currently returns dummy data,
+    #     # but could be updated to fetch real data if needed.
+    #     user_traffic_data = mahulu_helpers.get_user_traffic_data()
 
     return render_template('home/index.html', user_traffic_data=user_traffic_data)
 
@@ -68,8 +51,11 @@ def _push_visit_event():
             'iid': iid,
             'url': request.url,
         }
-        from ckanext.mahulu import helpers as mahulu_helpers
-        mahulu_helpers.push_sismut_visitors([record])
+        
+        result = mahulu_helpers.push_sismut_visitors([record])
+        if result.get('status') == 'ok' and result.get('parsed_stats'):
+            g.sismut_stats = result.get('parsed_stats')
+            
     except Exception:
         LOGGER.warning("VISIT push failed", exc_info=True)
 
