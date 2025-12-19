@@ -200,14 +200,14 @@ def get_sismut_infografik() -> List[Dict]:
         # resp.raise_for_status() # Don't raise, just handle
         if resp.status_code == 200:
              data = resp.json()
-             # The API likely returns a list or a dict with a list.
-             # Assuming standard Laravel/REST structure, might be data['data'] or just list.
-             # Let's check the structure if possible, but I can't run it.
-             # I'll assume it returns the list directly or in 'data'.
-             if isinstance(data, list):
-                 return data
-             elif isinstance(data, dict) and 'data' in data and isinstance(data['data'], list):
+             # Laravel response structure:
+             # { "data": [...], "message": "sukses", ... }
+             # The list of infographics is in 'data' field.
+             
+             if isinstance(data, dict) and 'data' in data and isinstance(data['data'], list):
                  return data['data']
+             elif isinstance(data, list):
+                 return data
              return []
         else:
              LOGGER.warning("SISMUT GET infografik failed: %s %s", resp.status_code, resp.text)

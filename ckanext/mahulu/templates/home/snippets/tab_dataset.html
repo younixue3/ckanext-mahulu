@@ -51,22 +51,40 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       {% for item in infografik_list %}
       <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300">
-        {% set img_url = item.image or item.file or item.url or '' %}
-        {% if img_url and not img_url.startswith('http') %}
-           {% set img_url = 'https://sismut.esistem.web.id/' ~ img_url.lstrip('/') %}
+        {% set img_url = item.thumbnai or '' %}
+        {# If thumbnail is empty but gallery exists, use first gallery item #}
+        {% if not img_url and item.gallery and item.gallery|length > 0 %}
+             {% set img_url = item.gallery[0].linkurl %}
         {% endif %}
-        
-        <div class="w-full h-48 md:h-64 bg-gray-100 flex items-center justify-center overflow-hidden">
+
+        <div class="w-full h-48 md:h-64 bg-gray-100 flex items-center justify-center overflow-hidden relative group">
              {% if img_url %}
-               <img src="{{ img_url }}" alt="{{ item.title or item.judul }}" class="w-full h-full object-contain">
+               <img src="{{ img_url }}" alt="{{ item.Judul }}" class="w-full h-full object-cover">
              {% else %}
                <span class="text-gray-400">No Image</span>
              {% endif %}
+             
+             {# Overlay for click action #}
+             <a href="{{ item.url_sismut }}" target="_blank" class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></a>
         </div>
 
         <div class="p-4">
-          <h3 class="text-gray-900 font-semibold">{{ item.title or item.judul or 'Infografik' }}</h3>
-          <p class="text-gray-600 text-sm mt-2 line-clamp-3">{{ (item.description or item.keterangan or item.desc or '') | striptags }}</p>
+          <div class="flex items-center justify-between mb-2">
+               <span class="text-xs font-medium text-indigo-600 bg-indigo-50 px-2 py-1 rounded">{{ item.Kategori }}</span>
+               <span class="text-xs text-gray-500 flex items-center gap-1">
+                   <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                   {{ item.Viewer }}
+               </span>
+          </div>
+          <h3 class="text-gray-900 font-semibold text-lg line-clamp-2 mb-2">
+              <a href="{{ item.url_sismut }}" target="_blank" class="hover:text-indigo-600 transition-colors">
+                  {{ item.Judul }}
+              </a>
+          </h3>
+          <p class="text-gray-600 text-sm line-clamp-3">{{ (item.Isi or '') | striptags }}</p>
+          <div class="mt-4 pt-3 border-t border-gray-100 flex justify-between items-center text-xs text-gray-500">
+               <span>{{ item.DisusunOleh }}</span>
+          </div>
         </div>
       </div>
       {% endfor %}
