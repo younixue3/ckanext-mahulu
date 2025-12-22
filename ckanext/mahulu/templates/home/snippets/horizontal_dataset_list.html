@@ -11,7 +11,7 @@
        class="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 px-1">
     
     {% for package in packages %}
-      {% set item = h.mahulu_showing_dataset(package) %}
+      {% set item = h.mahulu_showing_dataset(package.id) %}
       <a href="{{ h.url_for('dataset.read', id=item.name) }}"
          class="flex-none w-64 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 snap-start p-5">
         <span class="inline-block text-xs font-semibold bg-indigo-900 text-white px-3 py-1 rounded-full mb-3">Dataset</span>
