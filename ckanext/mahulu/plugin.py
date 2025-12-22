@@ -21,18 +21,16 @@ def showing_dataset(id):
     # value = toolkit.asbool(value)
     return value
 
-def newest_dataset():
+def newest_dataset(limit=10):
     '''Return a sorted list of the groups with the most datasets.'''
-
-    # Get a list of all the site's groups from CKAN, sorted by number of
-    # datasets.
-    groups = toolkit.get_action('package_list')(
-        data_dict={'all_fields': True})
-
-    # Truncate the list to the 10 most popular groups only.
-    groups = groups[:10]
-
-    return groups
+    # Use package_search to get the newest datasets
+    query = toolkit.get_action('package_search')(
+        data_dict={
+            'rows': limit,
+            'sort': 'metadata_created desc'
+        }
+    )
+    return query['results']
 
 
 class MahuluPlugin(plugins.SingletonPlugin):
